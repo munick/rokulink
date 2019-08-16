@@ -38,7 +38,7 @@ h1 {
   
   function postRequest(url) {
     httpRequest = new XMLHttpRequest();
-    httpRequest.open('POST', url, false);
+    httpRequest.open('POST', url);
     httpRequest.send();
     await sleep(500)
   }
