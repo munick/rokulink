@@ -1,0 +1,69 @@
+<html><head>
+<style>
+.heading { 
+    margin: auto;
+}
+h1 {
+    color: #333;
+    font-weight: 500;
+    line-height: 1.1;
+    font-family: GothamLight,GothamBook,Helvetica,Arial,sans-serif;
+    margin-top: 22px;
+    margin-bottom: 11px;
+}
+</style>
+<script>
+(function() {
+  var keyMap = new Map([
+    ['H', 'Home'],
+    //['R', 'Rev'],
+    ['F', 'Fwd'],
+    ['P', 'Play'],
+    ['S', 'Select'],
+    ['L', 'Left'],
+    ['R', 'Right'],
+    ['D', 'Down'],
+    ['U', 'Up'],
+    ['B', 'Back'],
+    ['I', 'InstantReplay'],
+    //['I', 'Info'],
+    //['B', 'Backspace'],
+    //['S', 'Search'],
+    ['E', 'Enter']
+  ]);
+  
+  function postRequest(url) {
+    httpRequest = new XMLHttpRequest();
+    httpRequest.open('POST', url, false);
+    httpRequest.send();
+  }
+  
+  function getIP() {
+    var url = new URL(window.location.href);
+    return url.searchParams.get("ip");    
+  }
+  
+  function getKeys() {
+    var url = new URL(window.location.href);
+    return url.searchParams.get("keys");    
+  }
+  
+  function keyPress(ip, key) {
+    request_url = ip + '/keypress/' + key;
+    postRequest(request_url);
+  }
+  
+  function keySequence(ip, sequence) {
+    sequence.forEach(key => {keyPress(ip, key)});
+  }
+  
+  keys = getKeys().split('').map(k => keyMap.get(k));
+  keySequence(getIP(), keys);
+  
+})();
+</script>
+</head>
+<body>
+<div class='heading'><h1>RokuLink</h1></div>
+</body>
+</html>
