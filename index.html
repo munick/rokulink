@@ -31,11 +31,16 @@ h1 {
     //['S', 'Search'],
     ['E', 'Enter']
   ]);
+    
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   
   function postRequest(url) {
     httpRequest = new XMLHttpRequest();
     httpRequest.open('POST', url, false);
     httpRequest.send();
+    await sleep(500)
   }
   
   function getIP() {
