@@ -12,8 +12,18 @@ h1 {
     margin-bottom: 11px;
 }
 </style>
+</head>
+<body>
+<div class='heading'><h1>RokuLink</h1></div>
+    
 <script>
 (function() {
+  var postform = document.createElement("form");
+  postform.style.display="none";
+  postform.id="postform";
+  postform.method="post";
+  postform = document.body.appendChild(postform);
+	
   var keyMap = new Map([
     ['H', 'Home'],
     //['R', 'Rev'],
@@ -36,16 +46,26 @@ h1 {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   
-  function postRequest(url) {
-    httpRequest = new XMLHttpRequest();
-    httpRequest.open('POST', url);
-    httpRequest.send();
-    await sleep(500)
+  async function postRequest(url) {
+    var postform = document.getElementById("postform");
+    postform.setAttribute("action", url);
+	postform.submit();
+    await sleep(750);
   }
   
   function getIP() {
     var url = new URL(window.location.href);
     return url.searchParams.get("ip");    
+  }
+  
+  function getApp() {
+    var url = new URL(window.location.href);
+    return url.searchParams.get("app");    
+  }
+  
+  function launchApp(ip, appId) {      
+    var request_url = ip + '/launch/' + appId;
+    postRequest(request_url);
   }
   
   function getKeys() {
@@ -61,14 +81,12 @@ h1 {
   function keySequence(ip, sequence) {
     sequence.forEach(key => {keyPress(ip, key)});
   }
-  
-  keys = getKeys().split('').map(k => keyMap.get(k));
+    
+  launchApp(getIP(), getApp());
+  var keys = getKeys().split('').map(k => keyMap.get(k));
   keySequence(getIP(), keys);
   
 })();
 </script>
-</head>
-<body>
-<div class='heading'><h1>RokuLink</h1></div>
 </body>
 </html>
