@@ -80,6 +80,7 @@ h1 {
   async function launchApp(ip, appId) {
     var request_url = ip + '/launch/' + appId;
     await postRequest(request_url);
+    await sleep(10000);
   }
 	
   async function keyPress(ip, key) {
@@ -95,7 +96,7 @@ h1 {
   }
 	
   if (getIP()) {
-     if (getApp()) {launchApp(getIP(), getApp())};
+     if (getApp()) {await launchApp(getIP(), getApp())};
      if (getKeys()) {
          var keys = getKeys().split('').map(k => keyMap.get(k));
 	 keySequence(getIP(), keys);
