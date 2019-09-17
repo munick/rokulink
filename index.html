@@ -72,23 +72,26 @@ h1 {
     return url.searchParams.get("app");    
   }
   
-  function launchApp(ip, appId) {
-    var request_url = ip + '/launch/' + appId;
-    postRequest(request_url);
-  }
-  
   function getKeys() {
     var url = new URL(window.location.href);
     return url.searchParams.get("keys");    
   }
-  
-  function keyPress(ip, key) {
+ 
+  async function launchApp(ip, appId) {
+    var request_url = ip + '/launch/' + appId;
+    await postRequest(request_url);
+  }
+	
+  async function keyPress(ip, key) {
     request_url = ip + '/keypress/' + key;
-    postRequest(request_url);
+    await postRequest(request_url);
   }
   
-  function keySequence(ip, sequence) {
-    sequence.forEach(key => {keyPress(ip, key)});
+  async function keySequence(ip, sequence) {
+    for (i=0;i<sequence.length; i++){
+      var key = sequence[i];
+      await keyPress(ip, key);
+    }
   }
 	
   if (getIP()) {
