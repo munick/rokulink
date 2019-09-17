@@ -18,10 +18,19 @@ h1 {
     
 <script>
 (function() {
+	
+  var postframe = document.createElement("iframe");
+  postframe.name="postresponse";
+  postframe.id="postresponse";
+  postframe.style.visibility="hidden";
+  postframe.style.display="none";
+  postframe = document.body.appendChild(postframe);
+	
   var postform = document.createElement("form");
   postform.style.display="none";
   postform.id="postform";
   postform.method="post";
+  postform.target="postresponse";
   postform = document.body.appendChild(postform);
 	
   var keyMap = new Map([
@@ -63,7 +72,7 @@ h1 {
     return url.searchParams.get("app");    
   }
   
-  function launchApp(ip, appId) {      
+  function launchApp(ip, appId) {
     var request_url = ip + '/launch/' + appId;
     postRequest(request_url);
   }
@@ -81,10 +90,14 @@ h1 {
   function keySequence(ip, sequence) {
     sequence.forEach(key => {keyPress(ip, key)});
   }
-    
-  launchApp(getIP(), getApp());
-  var keys = getKeys().split('').map(k => keyMap.get(k));
-  keySequence(getIP(), keys);
+	
+  if (getIP()) {
+     if (getApp()) {launchApp(getIP(), getApp())};
+     if (getKeys()) {
+         var keys = getKeys().split('').map(k => keyMap.get(k));
+	 keySequence(getIP(), keys);
+     }
+  }
   
 })();
 </script>
