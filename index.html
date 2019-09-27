@@ -55,11 +55,11 @@ h1 {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   
-  async function postRequest(url) {
+  async function postRequest(url, waitTime=1000) {
     var postform = document.getElementById("postform");
     postform.setAttribute("action", url);
 	postform.submit();
-    await sleep(750);
+    await sleep(waitTime);
   }
   
   function getIP() {
@@ -77,10 +77,11 @@ h1 {
     return url.searchParams.get("keys");    
   }
  
-  async function launchApp(ip, appId) {
+  async function launchApp(ip, appId, waitTime=25000) {
+    await keyPress(ip, 'Home');
     var request_url = ip + '/launch/' + appId;
     await postRequest(request_url);
-    await sleep(10000);
+    await sleep(waitTime);
   }
 	
   async function keyPress(ip, key) {
