@@ -81,7 +81,7 @@ h2 { font-size: 32pt; }
     return url.searchParams.get("keys");    
   }
  
-  async function launchApp(ip, appId, waitTime=25000) {
+  async function launchApp(ip, appId, waitTime=35000) {
     await keyPress(ip, 'Home');
     var request_url = ip + '/launch/' + appId;
     await postRequest(request_url);
