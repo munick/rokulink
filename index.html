@@ -3,18 +3,22 @@
 .heading { 
     margin: auto;
 }
-h1 {
-    color: #333;
+h1, h2 {
+    color: #555;
     font-weight: 500;
-    line-height: 1.1;
     font-family: GothamLight,GothamBook,Helvetica,Arial,sans-serif;
+    line-height: 1.1;
+    letter-spacing: -0.1rem;
     margin-top: 22px;
     margin-bottom: 11px;
+    text-align: center;
 }
+h1 { font-size: 48pt; }
+h2 { font-size: 32pt; }
 </style>
 </head>
 <body>
-<div class='heading'><h1>RokuLink</h1></div>
+	<div class='heading'><h1>RokuLink</h1><h2></h2></div>
     
 <script>
 (async function() {
@@ -97,12 +101,17 @@ h1 {
   }
 	
   if (getIP()) {
+     if (getApp() || getKeys()) {
+	 document.getElementsByTagName('h2')[0].innerHTML = 'Please Wait';
+     }
      if (getApp()) {await launchApp(getIP(), getApp())};
      if (getKeys()) {
          var keys = getKeys().split('').map(k => keyMap.get(k));
 	 keySequence(getIP(), keys);
+     }     
+     if (getApp() || getKeys()) {
+         document.getElementsByTagName('h2')[0].innerHTML = 'Done';
      }
-     window.close();
   }
   
 })();
